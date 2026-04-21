@@ -6,8 +6,6 @@ services:
       context: ./frontend
     container_name: nexusops-frontend
     restart: always # Auto-restart container on failure
-    ports:
-      - "80:80"
     depends_on:
       - backend
       - monitoring-service

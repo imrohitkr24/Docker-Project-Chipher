@@ -1,11 +1,11 @@
 # Multi-stage build
-FROM node:18-alpine AS builder
+FROM node:18-slim AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
 
-FROM node:18-alpine
+FROM node:18-slim
 WORKDIR /app
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
