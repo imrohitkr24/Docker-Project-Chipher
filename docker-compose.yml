@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    container_name: nexusops-frontend
+    restart: always # Auto-restart container on failure
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - monitoring-service
+    networks:
+      - nexusops-network
+
+  backend:
+    build:
+      context: ./backend
+    container_name: nexusops-backend
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+    expose:
+      - "5000"
+    networks:
+      - nexusops-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:5000/api/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  monitoring-service:
+    build:
+      context: ./monitoring-service
+    container_name: nexusops-monitoring
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=5001
+    # Needs access to host metrics, we run this container with elevated privileges to read hardware/OS stats
+    privileged: true
+    pid: "host"
+    expose:
+      - "5001"
+    networks:
+      - nexusops-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:5001/monitor/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nexusops-nginx
+    restart: always
+    ports:
+      - "8080:80" # Exposed externally
+    depends_on:
+      - frontend
+      - backend
+      - monitoring-service
+    networks:
+      - nexusops-network
+
+networks:
+  nexusops-network:
+    driver: bridge
