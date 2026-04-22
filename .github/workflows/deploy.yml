@@ -29,21 +29,21 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/nexusops-monitoring:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/nexusops-nginx:latest
 
-      - name: Execute Deployment on EC2
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-            cd /home/${{ secrets.EC2_USER }}/nexusops
-            # Pull latest code or just docker-compose (we assume the repo is cloned or compose file is there)
-            # Pulling newest images
-            docker-compose pull
-            
-            # Restart services mapping to new images with Rolling Updates
-            docker-compose up -d --remove-orphans
-            
-            # Cleanup old images
-            docker system prune -af
+#       - name: Execute Deployment on EC2
+#         uses: appleboy/ssh-action@v0.1.10
+#         with:
+#           host: ${{ secrets.EC2_HOST }}
+#           username: ${{ secrets.EC2_USER }}
+#           key: ${{ secrets.EC2_SSH_KEY }}
+#           script: |
+#             export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+#             cd /home/${{ secrets.EC2_USER }}/nexusops
+#             # Pull latest code or just docker-compose (we assume the repo is cloned or compose file is there)
+#             # Pulling newest images
+#             docker-compose pull
+#             
+#             # Restart services mapping to new images with Rolling Updates
+#             docker-compose up -d --remove-orphans
+#             
+#             # Cleanup old images
+#             docker system prune -af
