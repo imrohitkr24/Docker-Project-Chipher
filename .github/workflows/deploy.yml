@@ -18,16 +18,16 @@ jobs:
       - name: Build and Push Docker Images
         run: |
           # Build images
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/nexusops-frontend:latest ./frontend
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/nexusops-backend:latest ./backend
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/nexusops-monitoring:latest ./monitoring-service
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/nexusops-nginx:latest ./nginx
+          docker build -t imrohitkr24/nexusops-frontend:latest ./frontend
+          docker build -t imrohitkr24/nexusops-backend:latest ./backend
+          docker build -t imrohitkr24/nexusops-monitoring:latest ./monitoring-service
+          docker build -t imrohitkr24/nexusops-nginx:latest ./nginx
 
           # Push images
-          docker push ${{ secrets.DOCKER_USERNAME }}/nexusops-frontend:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/nexusops-backend:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/nexusops-monitoring:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/nexusops-nginx:latest
+          docker push imrohitkr24/nexusops-frontend:latest
+          docker push imrohitkr24/nexusops-backend:latest
+          docker push imrohitkr24/nexusops-monitoring:latest
+          docker push imrohitkr24/nexusops-nginx:latest
 
       - name: Execute Deployment on EC2
         uses: appleboy/ssh-action@v0.1.10

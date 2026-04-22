@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   frontend:
+    image: imrohitkr24/nexusops-frontend:latest
     build:
       context: ./frontend
     container_name: nexusops-frontend
@@ -13,6 +14,7 @@ services:
       - nexusops-network
 
   backend:
+    image: imrohitkr24/nexusops-backend:latest
     build:
       context: ./backend
     container_name: nexusops-backend
@@ -31,6 +33,7 @@ services:
       retries: 3
 
   monitoring-service:
+    image: imrohitkr24/nexusops-monitoring:latest
     build:
       context: ./monitoring-service
     container_name: nexusops-monitoring
@@ -52,6 +55,7 @@ services:
       retries: 3
 
   nginx:
+    image: imrohitkr24/nexusops-nginx:latest
     build:
       context: ./nginx
     container_name: nexusops-nginx
